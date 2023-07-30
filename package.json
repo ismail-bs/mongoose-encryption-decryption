@@ -1,11 +1,39 @@
 {
   "name": "mongoose-encryption-decryption",
   "version": "1.0.0",
-  "description": "",
+  "description": "Mongoose Encryption Decryption",
   "author": "Md Ismail Hosen",
   "private": true,
   "license": "MIT",
   "main": "dist/index.js",
+  "keywords": [
+    "mongo",
+    "mongodb",
+    "mongoose",
+    "encryption",
+    "encrypt",
+    "decryption",
+    "decrypt",
+    "schema",
+    "config",
+    "algorithms",
+    "authentication",
+    "security",
+    "key",
+    "hook",
+    "middleware"
+  ],
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ismail-bs/mongoose-encryption-decryption.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ismail-bs/mongoose-encryption-decryption/issues"
+  },
+  "homepage": "https://github.com/ismail-bs/mongoose-encryption-decryption#readme",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "start:dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/main.ts",
@@ -28,9 +56,6 @@
     "dotenv": "^16.3.1",
     "mongoose": "^7.4.1"
   },
-  "files": [
-    "dist"
-  ],
   "jest": {
     "moduleFileExtensions": [
       "js",
