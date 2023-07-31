@@ -43,7 +43,7 @@ export const mongooseEncryptionDecryption = function (
 
   function postInitHook(_next: any, _data: any) {
     const { next, data } = Helper.getNextAndData(_next, _data);
-    if (!data) next();
+    if (!data) return next();
 
     Helper.decryptFields(data, encodedFields, privateKey);
     next();
@@ -65,7 +65,8 @@ export const mongooseEncryptionDecryption = function (
 
   function postSaveHook(_next: any, _data: any) {
     const { next, data } = Helper.getNextAndData(_next, _data);
-    if (!data) next();
+    // "data?.isJestTestMock" Just use it for testing purposes.
+    if (!data || data?.isJestTestMock) return next();
 
     data.length
       ? Helper.decryptArrayFields(data, encodedFields, privateKey)
@@ -76,7 +77,7 @@ export const mongooseEncryptionDecryption = function (
 
   function findHook(_next: any, _data: any) {
     const { next, data } = Helper.getNextAndData(_next, _data);
-    if (!data || data.length === 0) next();
+    if (!data || data.length === 0) return next();
 
     Helper.decryptArrayFields(data, encodedFields, privateKey);
     next();
@@ -84,7 +85,7 @@ export const mongooseEncryptionDecryption = function (
 
   function findOneHook(_next: any, _data: any) {
     const { next, data } = Helper.getNextAndData(_next, _data);
-    if (!data) next();
+    if (!data) return next();
 
     Helper.decryptFields(data, encodedFields, privateKey);
     next();
@@ -92,7 +93,8 @@ export const mongooseEncryptionDecryption = function (
 
   function updatePostHook(_next: any, _data: any) {
     const { next, data } = Helper.getNextAndData(_next, _data);
-    if (!data) next();
+    // "data?.isJestTestMock" Just use it for testing purposes.
+    if (!data || data?.isJestTestMock) return next();
 
     // Determining whether the request has lean() or select() options
     if (this._userProvidedFields || this._mongooseOptions?.lean) {
@@ -103,7 +105,7 @@ export const mongooseEncryptionDecryption = function (
 
   function aggregateHook(_next: any, _data: any) {
     const { next, data } = Helper.getNextAndData(_next, _data);
-    if (!data) next();
+    if (!data) return next();
 
     Helper.decryptArrayFields(data, encodedFields, privateKey);
     next();

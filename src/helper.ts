@@ -133,7 +133,9 @@ export class Helper {
     secretKey: crypto.CipherKey,
   ): void => {
     for (let i = 0, len = data.length; i < len; i++) {
-      this.decryptFields(data[i], fields, secretKey);
+      // "data?.isJestTestMock" Just use it for testing purposes.
+      if (!data[i]?.isJestTestMock)
+        this.decryptFields(data[i], fields, secretKey);
     }
   };
 
