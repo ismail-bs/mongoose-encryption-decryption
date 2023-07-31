@@ -28,7 +28,7 @@ describe('Mongoose Schema Hooks', () => {
 
   afterAll(async () => {
     try {
-      await patientModel.findOneAndRemove({ _id: patientId });
+      await patientModel.deleteMany();
       await disConnectTestDatabase();
     } catch (error) {}
   });
