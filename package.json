@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Mongoose Encryption Decryption",
   "author": "Md Ismail Hosen",
-  "private": true,
   "license": "MIT",
   "main": "dist/index.js",
   "keywords": [
