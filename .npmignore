@@ -1,0 +1,21 @@
+# Files and directories to ignore when publishing to npm
+
+# Development and build files
+node_modules/
+dist/
+build/
+*.log
+
+# test files
+test/
+
+# Configuration files
+.eslint*
+.prettier*
+
+# Documentation files
+docs/
+
+# Temporary and cache files
+*.swp
+.DS_Store
