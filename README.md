@@ -5,7 +5,7 @@
 
 [![npm version](https://img.shields.io/npm/v/mongoose-encryption-decryption.svg)](https://www.npmjs.com/package/mongoose-encryption-decryption)
 
-[![License](https://img.shields.io/npm/l/mongoose-encryption-decryption.svg)](https://github.com/your-repo/mongoose-encryption-decryption/blob/master/LICENSE)
+[![License](https://img.shields.io/npm/l/mongoose-encryption-decryption.svg)](https://github.com/ismail-bs/mongoose-encryption-decryption/blob/main/LICENSE)
 
   
 
