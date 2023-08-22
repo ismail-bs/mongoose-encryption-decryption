@@ -1,13 +1,11 @@
 
 # mongoose-encryption-decryption
 
-  
 
 [![npm version](https://img.shields.io/npm/v/mongoose-encryption-decryption.svg)](https://www.npmjs.com/package/mongoose-encryption-decryption)
 
 [![License](https://img.shields.io/npm/l/mongoose-encryption-decryption.svg)](https://github.com/ismail-bs/mongoose-encryption-decryption/blob/main/LICENSE)
 
-  
 
 ## Overview
 
@@ -15,10 +13,53 @@
 
 The "mongoose-encryption-decryption" package is a powerful and secure encryption and decryption solution specially designed for seamless integration with Mongoose, a popular MongoDB object modeling tool. It addresses the critical need for safeguarding sensitive data within Mongoose models, ensuring data integrity, confidentiality, and regulatory compliance.
 
+## Installation
+
+  
+Install the package from npm:
   
 
-**Key Advantages:**
+```bash
+npm  install  mongoose-encryption-decryption
+```
 
+## Usage
+
+  
+```js
+import { Schema, model } from 'mongoose';
+import { mongooseEncryptionDecryption } from 'mongoose-encryption-decryption';
+
+const MySchema = new Schema(
+  {
+    sensitiveField: String,
+    otherField: String,
+    obj: {
+      sensitiveField: String,
+      otherField: String,
+    },
+    nestedObj: {
+      data: {
+        sensitiveField: String,
+      },
+    },
+  },
+  {
+    timestamps: true,
+    versionKey: false,
+  },
+);
+
+MySchema.plugin(mongooseEncryptionDecryption, {
+  encodedFields: ['sensitiveField', 'nestedObj.data.sensitiveField', 'obj.sensitiveField'],
+  privateKey: 'some secret key',
+});
+
+const MyModel = model('MyModel', MySchema);
+
+```
+
+**Key Advantages:**
   
 
 -  **Data Protection Made Easy:** Easily secure sensitive data within your Mongoose models without the need for extensive code modifications or complicated encryption setups. By leveraging this package, developers can focus on building robust applications while ensuring data privacy.
@@ -36,77 +77,32 @@ The "mongoose-encryption-decryption" package is a powerful and secure encryption
 -  **Flexibility and Scalability:** Whether you are building a small-scale application or a large enterprise-grade solution, "mongoose-encryption-decryption" scales effectively. It adapts to evolving requirements, making it suitable for a wide range of projects.
 
   
-  
-
-## Installation
-
-  
-
-Install the package from npm:
-
-  
-
-```bash
-npm  install  mongoose-encryption-decryption
-```
-
-  
-
-## Usage
-
-  
-```bash
-import { Schema, model } from 'mongoose';
-import { mongooseEncryptionDecryption } from 'mongoose-encryption-decryption';
-
-const MySchema = new Schema(
-  {
-    sensitiveField: String,
-    otherField: String,
-  },
-  {
-    timestamps: true,
-    versionKey: false,
-  },
-);
-
-// Apply encryption to the specified fields
-MySchema.plugin(mongooseEncryptionDecryption, {
-  encodedFields: ['sensitiveField'],
-  privateKey: 'your-secret-key',
-});
-
-const MyModel = model('MyModel', MySchema);
-
-  ```
-  
 
 **Important Note:**
 
-  
 
 - This package is not a substitute for other security measures like input validation and access controls. It complements existing security practices and aims to enhance data protection specifically at the database level.
 
   
   ## MongoDB Supported Methods
-  - create
-  - save
-  - insertOne
-  - insertMany
-  - find
-  - findById
-  - findOne
-  - findOneAndUpdate
-  - findOneAndDelete
-  - findOneAndRemove
-  - findByIdAndUpdate
-  - findByIdAndDelete
-  - findByIdAndRemove
-  - deleteOne
-  - updateOne
-  - updateMany
-  - aggregate
-  
+  - ```create```
+  - ```save```
+  - ```insertOne```
+  - ```insertMany```
+  - ```find```
+  - ```findById```
+  - ```findOne```
+  - ```findOneAndUpdate```
+  - ```findOneAndDelete```
+  - ```findOneAndRemove```
+  - ```findByIdAndUpdate```
+  - ```findByIdAndDelete```
+  - ```findByIdAndRemove```
+  - ```deleteOne```
+  - ```updateOne```
+  - ```aggregate```
+  - ```updateMany (Coming soon)```
+
 
 ## Security Recommendation
 
@@ -161,8 +157,8 @@ This package is provided under the [MIT License](https://opensource.org/licenses
 ## Version History
 
   
-
-- v1.0.0: Initial release with basic encryption and decryption functionality.
+- v1.2.0: Enhanced Encryption and Decryption for Nested Objects
+- v1.0.0: Initial release with basic encryption and decryption functionality (supports almost all Mongoose methods)
 
   
 
@@ -170,7 +166,7 @@ This package is provided under the [MIT License](https://opensource.org/licenses
 
   
 
-The "mongoose-encryption-decryption" package is developed and maintained by Md Ismail Hosen. We are a team of passionate developers with expertise in data security and software engineering. Our mission is to build tools that empower developers to create secure and privacy-respecting applications.
+Md. Ismail Hosen created and manage the "mongoose-encryption-decryption" package. We are a group of enthusiastic developers with backgrounds in data security and software engineering. Our objective is to create tools that enable developers to design secure, privacy-compliant applications.
 
   
 

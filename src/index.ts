@@ -26,26 +26,52 @@ export const mongooseEncryptionDecryption = function (
 
   function updatePreHook(_next: any) {
     const next = Helper.getNextFunction(_next);
-    for (let i = 0, len = encodedFields.length; i < len; i++) {
-      const field = encodedFields[i];
-      if (this._update[field]) {
-        const updateObj = {};
+    const updateObj: any = {}; // Initialize the update object
+
+    for (const field of encodedFields) {
+      const nestedFields = field.split('.');
+      let nestedValue = this._update; // Keep track of the nested value
+
+      // Traverse through nested fields except for the last one
+      for (let i = 0; i < nestedFields.length - 1; i++) {
+        nestedValue = nestedValue?.[nestedFields[i]];
+      }
+
+      // If the nestedValue is an object and the last field exists, encrypt it
+      if (
+        nestedValue &&
+        typeof nestedValue === 'object' &&
+        nestedValue[nestedFields[nestedFields.length - 1]]
+      ) {
+        const lastField = nestedFields[nestedFields.length - 1];
+        const encryptedValue = Helper.encrypt(
+          nestedValue[lastField],
+          privateKey,
+        );
+        nestedValue[lastField] = encryptedValue;
+      } else if (this._update?.[field]) {
         const encryptedData = Helper.encrypt(
           this._update[field] as string,
           privateKey,
         );
         updateObj[field] = encryptedData;
-        this.updateOne(this.getQuery() || {}, updateObj);
       }
     }
+
+    if (Object.keys(updateObj).length > 0) {
+      this.updateOne(this.getQuery() || {}, updateObj);
+    }
+
     next();
   }
 
   function postInitHook(_next: any, _data: any) {
+    if (!this._conditions) return; // Logic for findOne hook (find)
+
     const { next, data } = Helper.getNextAndData(_next, _data);
     if (!data) return next();
 
-    Helper.decryptFields(data, encodedFields, privateKey);
+    Helper.decryptNestedFields(data, encodedFields, privateKey);
     next();
   }
 
@@ -55,10 +81,10 @@ export const mongooseEncryptionDecryption = function (
 
     if (documents.length) {
       for (let i = 0, len = documents.length; i < len; i++) {
-        Helper.encryptFields(documents[i], encodedFields, privateKey);
+        Helper.encryptNestedFields(documents[i], encodedFields, privateKey);
       }
     } else if (data) {
-      Helper.encryptFields(data, encodedFields, privateKey);
+      Helper.encryptNestedFields(data, encodedFields, privateKey);
     }
     next();
   }
@@ -70,7 +96,7 @@ export const mongooseEncryptionDecryption = function (
 
     data.length
       ? Helper.decryptArrayFields(data, encodedFields, privateKey)
-      : Helper.decryptFields(data, encodedFields, privateKey);
+      : Helper.decryptNestedFields(data, encodedFields, privateKey);
 
     next();
   }
@@ -87,7 +113,7 @@ export const mongooseEncryptionDecryption = function (
     const { next, data } = Helper.getNextAndData(_next, _data);
     if (!data) return next();
 
-    Helper.decryptFields(data, encodedFields, privateKey);
+    Helper.decryptNestedFields(data, encodedFields, privateKey);
     next();
   }
 
@@ -98,7 +124,7 @@ export const mongooseEncryptionDecryption = function (
 
     // Determining whether the request has lean() or select() options
     if (this._userProvidedFields || this._mongooseOptions?.lean) {
-      Helper.decryptFields(data, encodedFields, privateKey);
+      Helper.decryptNestedFields(data, encodedFields, privateKey);
     }
     next();
   }
@@ -125,6 +151,9 @@ export const mongooseEncryptionDecryption = function (
   schema.post('insertMany', postSaveHook);
   schema.post('updateOne', updatePostHook);
   schema.post('find', findHook);
-  schema.post('findOne', findOneHook);
+  schema.post(
+    ['findOne', 'findOneAndUpdate', 'findOneAndRemove', 'findOneAndDelete'],
+    findOneHook,
+  );
   schema.post('aggregate', aggregateHook);
 };
