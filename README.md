@@ -64,6 +64,8 @@ const MyModel = model('MyModel', MySchema);
 
 -  **Data Protection Made Easy:** Easily secure sensitive data within your Mongoose models without the need for extensive code modifications or complicated encryption setups. By leveraging this package, developers can focus on building robust applications while ensuring data privacy.
 
+-  **Flexible Configuration:** Specify which fields to secure with ease, including deeply **nested properties**.
+
 -  **Versatile Encryption Support:** The package offers robust encryption using strong cryptographic algorithms. It supports various encryption standards, ensuring compatibility with a wide range of security protocols and compliance requirements.
 
 -  **Transparent Integration:** The integration process is seamless, requiring minimal code changes. Developers can enable encryption for selected fields with a simple plugin configuration, making it convenient to adapt to specific use cases.
@@ -156,8 +158,9 @@ This package is provided under the [MIT License](https://opensource.org/licenses
 
 ## Version History
 
-  
-- v1.2.0: Enhanced Encryption and Decryption for Nested Objects
+
+- v1.3.0: **Enhanced Encryption and Decryption for Nested Objects and arrays and array-nested objects (Coming Soon)**
+- v1.2.0: **Enhanced Encryption and Decryption for Nested Objects**
 - v1.0.0: Initial release with basic encryption and decryption functionality (supports almost all Mongoose methods)
 
   

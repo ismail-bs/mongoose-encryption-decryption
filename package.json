@@ -1,6 +1,6 @@
 {
   "name": "mongoose-encryption-decryption",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Mongoose Encryption Decryption",
   "author": "Md Ismail Hosen",
   "license": "MIT",
@@ -20,7 +20,10 @@
     "security",
     "key",
     "hook",
-    "middleware"
+    "mongoose-hooks",
+    "middleware",
+    "objects",
+    "nested-objects"
   ],
   "files": [
     "dist"
